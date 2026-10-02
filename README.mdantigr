@@ -1,0 +1,167 @@
+# WebAble
+
+**WebAble** is a Chrome extension that provides accessibility features to make web pages easier to read and navigate. It is designed to support users who experience difficulties with reading, visual processing or concentration.
+
+Built using Chrome Extension Manifest V3, WebAble combines text-to-speech, customizable reading styles, high-contrast mode, focus mode and AI-based image descriptions in a single extension.
+
+## Features
+
+### Text-to-Speech
+- Read selected text from any supported webpage.
+- Highlight words as they are being spoken.
+- Pause, resume and stop speech playback.
+- Adjust the speech rate (0.5x, 1.0x and 1.5x).
+- Save speech preferences between sessions.
+
+### Dyslexia-Friendly Reader
+- Choose between Comic Sans MS, OpenDyslexic and Arial.
+- Adjust letter spacing, word spacing and line height for improved readability.
+- Apply a warm background to reduce harsh visual contrast.
+- Switch between fonts without reloading the page.
+
+### High Contrast Mode
+- Apply a high-contrast color scheme with black backgrounds and white text.
+- Highlight links and interactive elements using distinct colors.
+- Preserve the appearance of images, videos, SVGs and canvas elements where supported.
+
+### Reading Focus Mode
+- Identify the main content area of a webpage and display it in a focused reading layout.
+- Dim and blur surrounding content to reduce visual distractions.
+- Exit focus mode using the Escape key or by clicking outside the reading area.
+
+### Text Scaling and Reset
+- Increase or decrease text size using the A+ and A- controls.
+- Apply text scaling through CSS custom properties.
+- Reset the extension's visual modifications and text settings using the Reset Styles option.
+
+### AI Image Descriptions
+- Generate image captions using the Hugging Face Inference API and the `nlpconnect/vit-gpt2-image-captioning` model.
+- Display generated captions below images.
+- Add generated descriptions to empty `alt` attributes where applicable.
+- Preview image descriptions in a modal when hovering over supported images.
+- Use contextual information from image filenames and paths when caption generation is unavailable.
+
+AI-generated captions may not always accurately describe an image. They should be treated as supplementary descriptions rather than a replacement for manually written alternative text.
+
+## Project Structure
+
+```text
+WebAble/
+├── manifest.json
+├── popup.html
+├── popup.js
+├── style.css
+├── service_worker.js
+├── settings.js
+├── focus_mode.js
+├── config.js
+├── icon16.png
+├── icon32.png
+├── icon48.png
+└── icon128.png
+```
+
+| File | Description |
+|---|---|
+| `manifest.json` | Extension configuration, permissions and entry points. |
+| `popup.html` | Layout of the extension popup. |
+| `popup.js` | Popup interactions, speech controls and content-script execution. |
+| `style.css` | Styling for the extension interface. |
+| `service_worker.js` | Background operations, API requests and storage-related tasks. |
+| `settings.js` | Applies accessibility settings to webpages. |
+| `focus_mode.js` | Handles the reading focus overlay. |
+| `config.js` | Shared configuration values. |
+| `icon*.png` | Extension icons in different sizes. |
+
+## Installation
+
+WebAble can be installed manually in Google Chrome and other Chromium-based browsers that support Manifest V3.
+
+**Requirements**
+- Google Chrome or another compatible Chromium-based browser.
+- An internet connection for AI-based image captioning.
+
+**Steps**
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/LightYagami-colab/WebAble.git
+   ```
+
+2. Open `chrome://extensions` in your browser.
+
+3. Enable **Developer mode**.
+
+4. Click **Load unpacked** and select the directory containing `manifest.json`.
+
+5. Pin WebAble to the browser toolbar for easier access.
+
+The extension should now be available in your browser.
+
+## AI Configuration
+
+WebAble uses the Hugging Face Inference API to generate image captions.
+
+To configure API access:
+
+1. Create an access token from [Hugging Face](https://huggingface.co/settings/tokens).
+2. Configure the token for local development without committing it to the repository.
+3. Reload the extension from `chrome://extensions`.
+
+**Security note:** Do not commit API tokens or other credentials to GitHub. A token embedded in a browser extension can potentially be extracted by users. For a publicly distributed extension, a backend service that securely handles API credentials is preferable.
+
+## Permissions
+
+WebAble uses the following Chrome extension permissions:
+
+| Permission | Purpose |
+|---|---|
+| `storage` | Stores user preferences, including font settings and speech rate. |
+| `scripting` | Injects scripts and accessibility styles into webpages. |
+| `tabs` | Identifies the active tab when the extension is used. |
+| `&lt;all_urls&gt;` | Allows the extension to operate on supported webpages across different websites. |
+
+WebAble is designed to process accessibility settings locally wherever possible. When AI image captioning is explicitly triggered, image data or URLs may be sent to the Hugging Face API, depending on the implementation.
+
+## Keyboard Shortcuts and Usage
+
+- **Text-to-Speech:** Select text on a webpage and use the Read Highlighted Text option.
+- **Focus Mode:** Press `Esc` or click outside the reading area to exit.
+- **Text Scaling:** Use A+ and A- to adjust the text size.
+- **Reset Styles:** Restore the default appearance by clearing the applied accessibility modifications.
+
+For OpenDyslexic to display correctly, the font must be available to the browser. Comic Sans MS and Arial can be used as alternatives.
+
+## Contributing
+
+Contributions, bug reports and suggestions are welcome.
+
+To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your changes.
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. Make your changes and test them in a Chromium-based browser.
+4. Commit your changes.
+
+   ```bash
+   git add .
+   git commit -m "Describe your changes"
+   ```
+
+5. Push your branch to your fork.
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+6. Open a Pull Request against the original repository and describe the changes you have made.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
