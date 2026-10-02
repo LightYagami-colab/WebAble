@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "WebAble - Accessibility Extension",
+  "version": "1.0.0",
+  "description": "Enhance web accessibility with dyslexia mode, contrast mode, and AI image descriptions",
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

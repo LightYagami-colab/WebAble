@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WebAble</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>WebAble Settings</h2>
+
+  <div class="setting-group">
+    <h3>Text-to-Speech</h3>
+
+    <button id="readText">Read Highlighted Text</button>
+    <div class="row">
+      <button id="pauseResumeTTS">Pause / Resume</button>
+      <button id="stopTTS">Stop</button>
+    </div>
+    <div class="setting-row">
+      <label for="ttsSpeed">Playback Speed:</label>
+      <select id="ttsSpeed">
+        <option value="0.5">0.5x (Slow)</option>
+        <option value="1" selected>1x (Normal)</option>
+        <option value="1.5">1.5x (Fast)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <h3>Visual Modes</h3>
+    <button id="dyslexiaMode">Toggle Dyslexia Mode</button>
+    <div class="setting-row">
+      <label for="fontSelect">Dyslexia Font:</label>
+      <select id="fontSelect">
+        <option value="Comic Sans MS">Comic Sans MS (Default)</option>
+        <option value="OpenDyslexic">OpenDyslexic (Requires separate OS install)</option>
+        <option value="Arial">Arial</option>
+      </select>
+    </div>
+    <button id="contrastMode">Toggle High Contrast</button>
+    <button id="focusMode">Toggle Reading Focus</button>
+  </div>
+
+  <div class="setting-group">
+    <h3>Text Size & Reset</h3>
+    <div class="row">
+      <button id="incText" title="Increase Text Size">A+</button>
+      <button id="decText" title="Decrease Text Size">A-</button>
+      <button id="resetStyles">Reset Styles</button>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <h3>AI Helper</h3>
+    <button id="aiToggle">AI Image Descriptions (Off)</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

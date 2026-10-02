@@ -1,0 +1,207 @@
+:root {
+  --primary-color: #0078d7; /* Blue theme */
+  --primary-hover: #005fa3;
+  --bg-color: #ffffff; /* Card background */
+  --body-bg: #f5f7f9; /* Popup background */
+  --border-color: #ddd;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif stack */
+  background: var(--body-bg);
+  padding: 10px;
+  width: 280px; /* Slightly wider */
+  color: #333;
+}
+
+h2 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+h3 {
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* NEW: Grouping for sections with card-like styling */
+.setting-group {
+  background: var(--bg-color);
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  border: 1px solid #eee;
+}
+
+/* Button Styling Improvements */
+button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 6px; /* Slightly more rounded */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  font-weight: 500;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--primary-hover);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+/* Row for side-by-side buttons */
+.row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.row button {
+  flex: 1;
+  margin: 0; /* Remove margin inside flex row */
+}
+
+/* NEW: Styling for label/select rows (e.g., Speed, Font) */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.setting-row label {
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+  padding-right: 10px;
+}
+
+#fontSelect, #ttsSpeed {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+/* HR elements are hidden as they are replaced by .setting-group margins/padding */
+hr {
+  display: none; 
+}
+
+/* Visually hidden class for screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+
+/* THIS IS NEW YAHA SE HATAO. */
+
+/* AI Image Description Modal Styles */
+.ai-image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.ai-image-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ai-caption-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ai-caption-box h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.ai-caption-box p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+}
+
+.web_api_ai_wrapper {
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 1em;
+  position: relative;
+  cursor: pointer;
+}
+
+.web_api_ai_wrapper img {
+  transition: filter 0.2s ease;
+}
+
+.web_api_ai_wrapper:hover img {
+  filter: brightness(0.9);
+}
+
+.web_api_ai_caption {
+  margin-top: 0.2em;
+  font-style: italic;
+  font-size: 12px;
+  color: #444;
+  background: #f9f9f9;
+  border-radius: 3px;
+  padding: 3px 6px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 1px 3px #ccc;
+}
