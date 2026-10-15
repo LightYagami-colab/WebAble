@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebAble Accessibility</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="icon32.png" alt="WebAble Logo" class="brand-icon" />
+      <div class="brand-text">
+        <h1>WebAble</h1>
+        <span class="badge-version">v1.1</span>
+      </div>
+    </div>
+    <div id="statusIndicator" class="status-banner" role="status" aria-live="polite">
+      Ready
+    </div>
+  </header>
+
+  <main>
+    <!-- Text-to-Speech Section -->
+    <section class="card" aria-labelledby="heading-tts">
+      <h2 id="heading-tts" class="card-title">
+        <span class="icon">🗣️</span> Text-to-Speech
+      </h2>
+      <button id="readText" class="btn btn-primary" title="Highlight text on the page first, then click here">
+        <span class="btn-icon">▶</span> Read Highlighted Text
+      </button>
+      <div class="btn-row">
+        <button id="pauseResumeTTS" class="btn btn-secondary">
+          <span class="btn-icon">⏸</span> Pause / Resume
+        </button>
+        <button id="stopTTS" class="btn btn-secondary">
+          <span class="btn-icon">⏹</span> Stop
+        </button>
+      </div>
+      <div class="control-row">
+        <label for="ttsSpeed">Speed:</label>
+        <select id="ttsSpeed" class="select-input">
+          <option value="0.75">0.75x (Slower)</option>
+          <option value="1" selected>1.0x (Normal)</option>
+          <option value="1.25">1.25x (Brisk)</option>
+          <option value="1.5">1.5x (Fast)</option>
+          <option value="2">2.0x (Double)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Visual Modes Section -->
+    <section class="card" aria-labelledby="heading-visual">
+      <h2 id="heading-visual" class="card-title">
+        <span class="icon">👁️</span> Visual Modes
+      </h2>
+      
+      <div class="toggle-group">
+        <button id="dyslexiaMode" class="btn-toggle" aria-pressed="false">
+          <div class="toggle-info">
+            <span class="toggle-label">Dyslexia Friendly</span>
+            <span class="toggle-desc">Wider spacing & reading tint</span>
+          </div>
+          <span class="toggle-state">OFF</span>
+        </button>
+
+        <div class="control-row sub-row">
+          <label for="fontSelect">Font Family:</label>
+          <select id="fontSelect" class="select-input">
+            <option value="Comic Sans MS">Comic Sans MS (Built-in)</option>
+            <option value="Arial">Arial (Clean Sans)</option>
+            <option value="Trebuchet MS">Trebuchet MS (Legible)</option>
+            <option value="Verdana">Verdana (Wide Spaced)</option>
+            <option value="OpenDyslexic">OpenDyslexic (If installed)</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="contrastMode" class="btn-toggle" aria-pressed="false">
+        <div class="toggle-info">
+          <span class="toggle-label">High Contrast Mode</span>
+          <span class="toggle-desc">Dark background with vivid text</span>
+        </div>
+        <span class="toggle-state">OFF</span>
+      </button>
+
+      <button id="focusMode" class="btn btn-outline">
+        <span class="btn-icon">🎯</span> Toggle Reading Focus
+      </button>
+    </section>
+
+    <!-- Text Sizing Section -->
+    <section class="card" aria-labelledby="heading-sizing">
+      <h2 id="heading-sizing" class="card-title">
+        <span class="icon">🔍</span> Text Size & Reset
+      </h2>
+      <div class="btn-row">
+        <button id="decText" class="btn btn-secondary" title="Decrease font size">
+          A<small>-</small>
+        </button>
+        <button id="incText" class="btn btn-secondary" title="Increase font size">
+          A<small>+</small>
+        </button>
+        <button id="resetStyles" class="btn btn-danger" title="Clear all visual changes">
+          Reset All
+        </button>
+      </div>
+      <div class="scale-display" id="scaleDisplay">Scale: 100%</div>
+    </section>
+
+    <!-- AI Descriptions Section -->
+    <section class="card" aria-labelledby="heading-ai">
+      <h2 id="heading-ai" class="card-title">
+        <span class="icon">🤖</span> AI Vision Helper
+      </h2>
+      <button id="aiToggle" class="btn-toggle" aria-pressed="false">
+        <div class="toggle-info">
+          <span class="toggle-label">AI Image Descriptions</span>
+          <span class="toggle-desc">Generate alt text for page images</span>
+        </div>
+        <span class="toggle-state">OFF</span>
+      </button>
+      
+      <details class="api-key-accordion">
+        <summary>Custom Hugging Face Token (Optional)</summary>
+        <div class="api-key-form">
+          <input type="password" id="hfApiKey" placeholder="hf_xxxxxxxxxxxx" class="text-input" />
+          <button id="saveApiKey" class="btn btn-sm">Save Key</button>
+        </div>
+        <p class="help-text">Leave blank to use the smart fallback heuristic engine.</p>
+      </details>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>
