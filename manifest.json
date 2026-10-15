@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "WebAble - Accessibility Extension",
-  "version": "1.0.0",
-  "description": "Enhance web accessibility with dyslexia mode, contrast mode, and AI image descriptions",
+  "version": "1.1.0",
+  "description": "Enhance web accessibility with dyslexia mode, high contrast, non-destructive TTS, and AI image descriptions",
   "permissions": [
     "storage",
     "scripting",
@@ -11,10 +11,30 @@
   "host_permissions": [
     "<all_urls>"
   ],
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "background": {
     "service_worker": "service_worker.js"
   },
   "action": {
-    "default_popup": "popup.html"
-  }
+    "default_popup": "popup.html",
+    "default_title": "WebAble Accessibility Tools",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["settings.js"],
+      "run_at": "document_start"
+    }
+  ]
 }

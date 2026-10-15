@@ -1,103 +1,163 @@
-// WebAble/settings.js
+// settings.js - WebAble Content Script for Accessibility Styles
+(function () {
+  'use strict';
 
-/**
- * Defines the core logic for applying and removing Dyslexia Mode styles.
- * These functions are defined in the content script context (injected into the webpage).
- */
+  const DYSLEXIA_STYLE_ID = 'webable-dyslexia-style';
+  const CONTRAST_STYLE_ID = 'webable-contrast-style';
+  const SCALE_STYLE_ID = 'webable-scale-style';
 
-const DYSLEXIA_STYLE_ID = 'webable-dyslexia-style';
-
-function getDyslexiaStyleText(chosenFont) {
+  function getDyslexiaCss(chosenFont) {
+    const font = chosenFont || 'Arial';
     return `
-        html, body, * {
-            /* Use the saved font */
-            font-family: "${chosenFont}", Arial, sans-serif !important; 
-            letter-spacing: 0.06em !important;
-            word-spacing: 0.12em !important;
-        }
-        body { background-color: #fffbe6 !important; }
-        p, li { line-height: 1.6 !important; }
+      html, body, p, span, a, li, h1, h2, h3, h4, h5, h6, input, button, textarea, select {
+        font-family: "${font}", Arial, sans-serif !important;
+        letter-spacing: 0.07em !important;
+        word-spacing: 0.14em !important;
+        line-height: 1.65 !important;
+      }
+      body {
+        background-color: #fcf8e8 !important;
+      }
+      p, li {
+        max-width: 85ch !important;
+      }
     `;
-}
+  }
 
-function applyDyslexiaStyles(chosenFont) {
-    let style = document.getElementById(DYSLEXIA_STYLE_ID);
-    if (!style) {
-        style = document.createElement('style');
-        style.id = DYSLEXIA_STYLE_ID;
-        document.documentElement.appendChild(style);
+  function getContrastCss() {
+    return `
+      html, body {
+        background-color: #0d0d0d !important;
+        color: #f5f5f5 !important;
+      }
+      div, section, article, nav, aside, header, footer, main, ul, ol, li {
+        background-color: #0d0d0d !important;
+        color: #f5f5f5 !important;
+        border-color: #383838 !important;
+      }
+      p, span, h1, h2, h3, h4, h5, h6, label {
+        color: #ffffff !important;
+      }
+      a, a:visited {
+        color: #58a6ff !important;
+        text-decoration: underline !important;
+      }
+      a:hover, a:focus {
+        color: #ffff00 !important;
+        outline: 2px solid #ffff00 !important;
+        background-color: #1a2a3a !important;
+      }
+      button, input, select, textarea {
+        background-color: #1f1f1f !important;
+        color: #ffffff !important;
+        border: 2px solid #888888 !important;
+        border-radius: 4px !important;
+      }
+      button:focus, input:focus, select:focus, textarea:focus {
+        outline: 3px solid #00ffff !important;
+        border-color: #00ffff !important;
+      }
+      ::selection {
+        background: #ffff00 !important;
+        color: #000000 !important;
+      }
+      img, video, canvas, svg {
+        filter: contrast(1.1) brightness(0.95) !important;
+        opacity: 0.95 !important;
+      }
+    `;
+  }
+
+  function applyDyslexiaStyle(isActive, font) {
+    let el = document.getElementById(DYSLEXIA_STYLE_ID);
+    if (isActive) {
+      if (!el) {
+        el = document.createElement('style');
+        el.id = DYSLEXIA_STYLE_ID;
+        (document.head || document.documentElement).appendChild(el);
+      }
+      el.textContent = getDyslexiaCss(font);
+    } else if (el) {
+      el.remove();
     }
-    style.textContent = getDyslexiaStyleText(chosenFont);
-}
+  }
 
-function removeDyslexiaStyles() {
-    const style = document.getElementById(DYSLEXIA_STYLE_ID);
-    if (style) {
-        style.remove();
+  function applyContrastStyle(isActive) {
+    let el = document.getElementById(CONTRAST_STYLE_ID);
+    if (isActive) {
+      if (!el) {
+        el = document.createElement('style');
+        el.id = CONTRAST_STYLE_ID;
+        (document.head || document.documentElement).appendChild(el);
+      }
+      el.textContent = getContrastCss();
+    } else if (el) {
+      el.remove();
     }
-}
+  }
 
-/**
- * Toggles the Dyslexia mode state and applies/removes styles.
- * This is the function the popup will call via scripting.
- * @param {boolean|null} forceState - If true/false, forces the mode state. If null, toggles it.
- * @returns {Promise<boolean>} The new active state.
- */
-async function toggleDyslexiaMode(forceState = null) {
-    // Fetch all saved settings from storage (via service worker)
-    const settings = await new Promise(resolve => {
-        // Send a message to the background service worker to fetch settings
-        chrome.runtime.sendMessage({ type: 'WEBABLE_GET_SETTINGS' }, resolve);
-    });
-
-    const currentState = (forceState !== null) ? forceState : !settings.isDyslexiaModeActive;
-    const chosenFont = settings.selectedFont || '"Comic Sans MS", Arial, sans-serif';
-
-    if (currentState) {
-        applyDyslexiaStyles(chosenFont);
-        // Save new state
-        chrome.storage.sync.set({ isDyslexiaModeActive: true });
-        // NOTE: The alert is now managed by the popup side for better user experience
+  function applyFontScale(scale) {
+    let el = document.getElementById(SCALE_STYLE_ID);
+    if (scale && scale !== 1.0) {
+      document.documentElement.style.setProperty('--webable-font-scale', scale);
+      if (!el) {
+        el = document.createElement('style');
+        el.id = SCALE_STYLE_ID;
+        (document.head || document.documentElement).appendChild(el);
+      }
+      el.textContent = `
+        html {
+          font-size: calc(16px * var(--webable-font-scale, 1)) !important;
+        }
+      `;
     } else {
-        removeDyslexiaStyles();
-        // Save new state
-        chrome.storage.sync.set({ isDyslexiaModeActive: false });
+      document.documentElement.style.removeProperty('--webable-font-scale');
+      if (el) el.remove();
     }
-    return currentState;
-}
+  }
 
+  // Load and apply initial state on page load
+  function initStyles() {
+    chrome.storage.sync.get(
+      ['isDyslexiaModeActive', 'isContrastModeActive', 'selectedFont', 'fontScale'],
+      (settings) => {
+        if (!settings) return;
+        if (settings.isDyslexiaModeActive) {
+          applyDyslexiaStyle(true, settings.selectedFont);
+        }
+        if (settings.isContrastModeActive) {
+          applyContrastStyle(true);
+        }
+        if (settings.fontScale && settings.fontScale !== 1) {
+          applyFontScale(settings.fontScale);
+        }
+      }
+    );
+  }
 
-// --- INITIAL PAGE LOAD APPLICATION (UNCHANGED logic, but now uses new functions) ---
-(async function applySavedSettings() {
-    // 1. Check if we are already active (Contrast modes inject style tags with specific IDs)
-    if (document.getElementById(DYSLEXIA_STYLE_ID) || document.getElementById('webable-contrast-style')) {
-        return; // Styles already active, do nothing
+  // Real-time synchronization when settings are updated from popup
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'sync') return;
+
+    if (changes.isDyslexiaModeActive || changes.selectedFont) {
+      chrome.storage.sync.get(['isDyslexiaModeActive', 'selectedFont'], (res) => {
+        applyDyslexiaStyle(!!res.isDyslexiaModeActive, res.selectedFont);
+      });
     }
 
-    // 2. Fetch all saved settings from storage (via service worker)
-    const settings = await new Promise(resolve => {
-        chrome.runtime.sendMessage({ type: 'WEBABLE_GET_SETTINGS' }, resolve);
-    });
-
-    // 3. Apply Dyslexia Mode if saved
-    if (settings.isDyslexiaModeActive) {
-        applyDyslexiaStyles(settings.selectedFont || '"Comic Sans MS", Arial, sans-serif');
+    if (changes.isContrastModeActive) {
+      applyContrastStyle(changes.isContrastModeActive.newValue);
     }
 
-    // 4. Apply High Contrast Mode if saved
-    if (settings.isContrastModeActive) {
-        const style = document.createElement('style');
-        style.id = 'webable-contrast-style';
-        style.textContent = `
-            html, body, * { 
-                background: transparent !important; 
-                color: #ffffff !important; 
-                border-color: #ffffff !important;
-            }
-            body { background-color: #000000 !important; }
-            a { color: #4ea3ff !important; }
-            img, video, canvas, svg { filter: none !important; }
-        `;
-        document.documentElement.appendChild(style);
+    if (changes.fontScale) {
+      applyFontScale(changes.fontScale.newValue);
     }
+  });
+
+  // Run on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStyles);
+  } else {
+    initStyles();
+  }
 })();

@@ -1,207 +1,328 @@
 :root {
-  --primary-color: #0078d7; /* Blue theme */
-  --primary-hover: #005fa3;
-  --bg-color: #ffffff; /* Card background */
-  --body-bg: #f5f7f9; /* Popup background */
-  --border-color: #ddd;
-  --shadow-color: rgba(0, 0, 0, 0.08);
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --primary-light: #e0f2fe;
+  --primary-dark: #075985;
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif stack */
-  background: var(--body-bg);
-  padding: 10px;
-  width: 280px; /* Slightly wider */
-  color: #333;
-}
-
-h2 {
-  margin: 0 0 15px 0;
-  font-size: 20px;
-  text-align: center;
-  color: #1a1a1a;
-}
-
-h3 {
-  font-size: 14px;
-  margin: 0 0 10px 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-/* NEW: Grouping for sections with card-like styling */
-.setting-group {
-  background: var(--bg-color);
-  padding: 10px 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  border: 1px solid #eee;
-}
-
-/* Button Styling Improvements */
-button {
-  width: 100%;
-  margin: 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  width: 320px;
   padding: 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  background-color: var(--primary-color);
-  color: #fff;
-  border-radius: 6px; /* Slightly more rounded */
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  font-weight: 500;
+  user-select: none;
 }
 
-button:hover,
-button:focus {
-  background-color: var(--primary-hover);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.brand-text h1 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-main);
+}
+
+.badge-version {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.status-banner {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 12px;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
+
+.status-banner.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-banner.error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-title .icon {
+  font-size: 14px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
   outline: none;
 }
 
-/* Row for side-by-side buttons */
-.row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
 }
 
-.row button {
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: var(--text-main);
+  border-color: #cbd5e1;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+  margin-top: 6px;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-danger {
+  background-color: #fef2f2;
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.btn-danger:hover {
+  background-color: #fee2e2;
+}
+
+.btn-sm {
+  width: auto;
+  padding: 5px 10px;
+  font-size: 11px;
+  background: var(--primary);
+  color: white;
+}
+
+.btn-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.btn-row .btn {
   flex: 1;
-  margin: 0; /* Remove margin inside flex row */
 }
 
-/* NEW: Styling for label/select rows (e.g., Speed, Font) */
-.setting-row {
+/* Toggle Buttons */
+.toggle-group {
+  margin-bottom: 8px;
+}
+
+.btn-toggle {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
+  width: 100%;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  margin-bottom: 6px;
 }
 
-.setting-row label {
-  font-size: 14px;
-  font-weight: 500;
-  flex-shrink: 0;
-  padding-right: 10px;
+.btn-toggle:hover {
+  background: #f1f5f9;
 }
 
-#fontSelect, #ttsSpeed {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  flex-grow: 1;
-  font-size: 14px;
+.btn-toggle[aria-pressed="true"] {
+  background: #eff6ff;
+  border-color: #93c5fd;
 }
 
-/* HR elements are hidden as they are replaced by .setting-group margins/padding */
-hr {
-  display: none; 
+.toggle-info {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Visually hidden class for screen reader only text */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
+.toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
+.toggle-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+}
 
-/* THIS IS NEW YAHA SE HATAO. */
+.toggle-state {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+}
 
-/* AI Image Description Modal Styles */
-.ai-image-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+.btn-toggle[aria-pressed="true"] .toggle-state {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Control Rows */
+.control-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  justify-content: space-between;
+  margin-top: 8px;
+  gap: 8px;
 }
 
-.ai-image-modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.ai-caption-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.ai-caption-box h3 {
-  margin: 0 0 10px 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-.ai-caption-box p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #333;
-  margin: 0;
-}
-
-.web_api_ai_wrapper {
-  display: inline-block;
-  text-align: center;
-  margin-bottom: 1em;
-  position: relative;
-  cursor: pointer;
-}
-
-.web_api_ai_wrapper img {
-  transition: filter 0.2s ease;
-}
-
-.web_api_ai_wrapper:hover img {
-  filter: brightness(0.9);
-}
-
-.web_api_ai_caption {
-  margin-top: 0.2em;
-  font-style: italic;
+.control-row label {
   font-size: 12px;
-  color: #444;
-  background: #f9f9f9;
-  border-radius: 3px;
-  padding: 3px 6px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 1px 1px 3px #ccc;
+  font-weight: 500;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.sub-row {
+  padding-left: 6px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.select-input, .text-input {
+  flex-grow: 1;
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--text-main);
+  outline: none;
+}
+
+.select-input:focus, .text-input:focus {
+  border-color: var(--primary);
+}
+
+.scale-display {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* Accordion for API key */
+.api-key-accordion {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.api-key-accordion summary {
+  cursor: pointer;
+  padding: 4px 0;
+  font-weight: 500;
+  user-select: none;
+}
+
+.api-key-form {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.help-text {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 4px;
 }
